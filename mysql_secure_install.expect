@@ -1,0 +1,55 @@
+#!/usr/bin/expect -f
+
+# Spawn the mysql_secure_installation command
+spawn sudo mysql_secure_installation
+
+# Expect the prompt for the current root password and send a newline character
+expect "Enter current password for root (enter for none):"
+send "\r"
+
+# Expect the prompt to switch to unix_socket authentication and confirm with a newline character
+expect "Switch to unix_socket authentication \[Y/n\]"
+send "\r"
+
+# Expect the prompt to change the root password and send a newline character to indicate no password change
+expect "Change the root password? \[Y/n\]"
+send "\r"
+
+# Expect the prompt for a new password and send the desired password
+expect "New password:"
+send "sskathir420@\r"
+
+# Set a timeout for the next expect
+set timeout 10
+
+# Expect the prompt to re-enter the new password and send the password again
+expect {
+    "Re-enter new password:" {
+        send "sskathir420@\r"
+    }
+    timeout {
+        puts "Timeout occurred while waiting for prompt"
+    }
+}
+
+# Expect the prompt to remove anonymous users and confirm with a newline character
+expect "Remove anonymous users? \[Y/n\]"
+send "\r"
+
+# Expect the prompt to disallow root login remotely and confirm with a newline character
+expect "Disallow root login remotely? \[Y/n\]"
+send "\r"
+
+# Expect the prompt to remove the test database and access to it and confirm with a newline character
+expect "Remove test database and access to it? \[Y/n\]"
+send "\r"
+
+# Expect the prompt to reload privilege tables and confirm with a newline character
+expect "Reload privilege tables now? \[Y/n\]"
+send "\r"
+
+# Allow the user to interact with the spawned process
+interact
+
+
+
